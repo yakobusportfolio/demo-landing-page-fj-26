@@ -1,0 +1,160 @@
+Create a premium landing page UI design in Figma for a wedding photography brand.
+
+Brand name: Faralljibrill Photography
+
+Purpose: showcase wedding add-on services and encourage users to check availability or contact admin through WhatsApp.
+
+Design style:
+minimal, elegant, editorial wedding aesthetic with large photography, generous whitespace and refined typography.
+
+Color palette:
+Primary dark blue #041e48
+Secondary blue #1b355e
+White #ffffff
+Accent burgundy #70161e
+Black #000000
+
+Typography:
+Elegant serif font for headings
+Clean modern sans-serif for body text
+
+Design a full landing page with the following section structure.
+
+HEADER
+Sticky transparent header with blur effect when scrolling.
+Left side: logo and brand name Faralljibrill Photography.
+Right side navigation buttons:
+View Portfolio
+Check Availability
+WhatsApp Admin
+
+HERO SECTION
+Full screen hero with wedding photography background or cinematic video still.
+Use very light overlay for readability.
+
+Headline:
+Customize Your Wedding Experience
+
+Subheadline:
+Create a more memorable celebration with interactive photo experiences designed for you and your guests.
+
+Primary CTA button:
+Check Availability
+
+Secondary buttons:
+Explore Add-Ons
+View Portfolio
+
+BENEFITS SECTION
+Title:
+Make Your Wedding Even More Memorable
+
+Three columns with icon and text:
+Interactive Guest Experience
+Instant Shared Memories
+Beautiful Wedding Keepsakes
+
+ADD-ONS SECTION
+
+Add-On Card 1
+Photo Mini Studio
+
+Description:
+Dedicated mini photo space where guests and family capture stylish portraits during your wedding celebration.
+
+Background preview grid:
+Terracotta Red
+Light Grey Texture
+Dark Green Texture
+Plain Black
+
+Note:
+Custom background available upon request with minimum booking three weeks before the event.
+
+Buttons:
+Ask Admin
+View Mini Studio Gallery
+
+Add-On Card 2
+Photo Scan Barcode Experience
+
+Description:
+Guests instantly upload view and download wedding photos through a simple scanning system creating a collaborative wedding gallery.
+
+Features list:
+Custom photo frame template
+A3 printed display with two tripod banners
+Operator with iPad station
+Fast internet upload
+Unlimited photos for two hours
+Cloud gallery access for thirty days
+
+Buttons:
+Ask Admin
+View Scan Barcode Gallery
+
+PORTFOLIO SECTION
+
+Section title:
+See These Experiences in Real Weddings
+
+Background color:
+#041e48
+
+Create two large interactive portfolio cards only.
+
+Card 1
+Photo Mini Studio
+
+Card 2
+Photo Scan Barcode
+
+Card interaction:
+hover zoom image
+glass blur overlay
+text fade in
+view gallery button
+
+GALLERY OVERLAY
+
+Clicking a portfolio card opens fullscreen gallery overlay.
+
+Overlay style:
+transparent dark background with blur effect.
+
+Gallery layout:
+masonry photo grid showing weddings from different venues such as Alana, Alila, Best Western Solo Baru, Diamond Convention Hall and Swiss Bel Hotel.
+
+Clicking a gallery item opens horizontal photo slider.
+
+Slider navigation:
+arrows for desktop
+swipe gesture for mobile
+
+TESTIMONIAL SECTION
+
+Title:
+What Our Couples Say
+
+Display testimonial cards with couple name and wedding venue.
+
+FINAL CALL TO ACTION
+
+Title:
+Ready to Customize Your Wedding Experience
+
+Buttons:
+Check Availability
+Chat with Admin
+
+FOOTER
+
+Display brand name Faralljibrill Photography and links for Instagram WhatsApp and Email.
+
+INTERACTION STYLE
+
+Use subtle hover animations for cards and buttons.
+Use smooth scroll transitions between sections.
+Use elegant fade up animation when sections enter the viewport.
+
+Keep the entire layout clean, premium and photography focused.
