@@ -193,7 +193,7 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-3 pointer-events-none"
         >
           <button
-            onClick={(e) => {e.stopPropagation(); open()}};
+            onClick={(e) => {e.stopPropagation(); open()}}
             onTouchStart={(e) => e.stopPropagation()}
             className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-[#041e48] hover:bg-[#1b355e] text-white rounded-full text-sm font-medium transition-colors text-center shadow-lg hover:shadow-xl"
            >
