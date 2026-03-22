@@ -82,18 +82,20 @@ export function HeroSection() {
   };
 
   const handleTouchEnd = () => {
-    const swipeThreshold = 50;
-    const diff = touchStartX.current - touchEndX.current;
+  const diff = touchStartX.current - touchEndX.current;
 
-    if (Math.abs(diff) >10) return;
-      const swipeThreshold = 50
-      if (diff > 0) {
-        nextSlide(); // Swipe left - next slide
-      } else {
-        prevSlide(); // Swipe right - previous slide
-      }
+  // ✅ TAP → jangan ganggu CTA
+  if (Math.abs(diff) < 10) return;
+
+  // ✅ SWIPE ONLY kalau cukup besar
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) {
+      nextSlide();
+    } else {
+      prevSlide();
     }
-  };
+  }
+};
 
   return (
     <section 
@@ -186,41 +188,40 @@ export function HeroSection() {
           </motion.div>
         </AnimatePresence>
         
-        <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-3 pointer-events-none"
-      >
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            open();
-          }}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 pointer-events-none"
+          >
+          <button
+          onClick={(e) => {e.stopPropagation(); open(); }}
           onTouchStart={(e) => e.stopPropagation()}
-          className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-[#041e48] hover:bg-[#1b355e] text-white rounded-full text-sm font-medium transition-colors text-center shadow-lg hover:shadow-xl"
-        >
+          className="pointer-events-none w-full sm:w-auto px-6 py-2.5 bg-[#041e48] hover:bg-[#1b355e] text-white rounded-full text-sm font-medium transition-colors text-center shadow-lg hover:shadow-xl"
+          >
           Check Availability
-        </button>
+          </button>
       
-        <a 
+          <a 
           href="#add-ons"
           onClick={(e) => e.stopPropagation()}
           onTouchStart={(e) => e.stopPropagation()}
-          className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
-        >
+          className="pointer-events-none w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
+          >
+
           Explore Add-Ons
-        </a>
+          </a>
       
-        <Link 
-          to="/portfolio"
-          onClick={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
-        >
+          <Link 
+            to="/portfolio"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
+          >
+
           View Portfolio
-        </Link>
-        </motion.div>
+          </Link>
+            </motion.div>
       </div>
 
       {/* Dot Indicators */}
