@@ -222,7 +222,7 @@ export function HeroSection() {
           >
 
           Explore Add-Ons
-          </button>
+          </button
           <Link 
             to="/portfolio"
               onClick={(e) => e.stopPropagation()}
