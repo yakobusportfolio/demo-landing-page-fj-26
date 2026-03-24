@@ -207,7 +207,9 @@ export function HeroSection() {
             }}>
 
           Check Availability
-          </button>
+          <button
+            className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
+          >
       
           <button
             onClick={(e) => {
@@ -220,7 +222,7 @@ export function HeroSection() {
           >
 
           Explore Add-Ons
-          </button>
+          <button>
           <Link 
             to="/portfolio"
               onClick={(e) => e.stopPropagation()}
