@@ -40,7 +40,7 @@ export function Navbar() {
         }`}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <Link to="/" className={`text-lg font-serif tracking-wide drop-shadow-sm ${
+          <Link to="/" className={`text-x1 md:text-2xl font-serif tracking-wide drop-shadow-sm ${
             isContactPage ? "text-[#041e48]" : "text-white"
           }`}>
             Faralljibrill Photography
