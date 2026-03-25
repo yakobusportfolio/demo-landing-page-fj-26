@@ -51,7 +51,7 @@ export function Navbar() {
             <Link to="/portfolio" className={`text-sm tracking-wide hover:opacity-70 transition-opacity ${
               isContactPage ? "text-[#041e48]" : "text-white drop-shadow-md"
             }`}>
-              View Portfolios
+              Gallery
             </Link>
             <button 
               onClick={open}
@@ -59,7 +59,7 @@ export function Navbar() {
                 isContactPage ? "text-[#041e48]" : "text-white drop-shadow-md"
               }`}
             >
-              Check Availability
+              Booking Now!
             </button>
             <Link 
               to="/contact" 
@@ -131,21 +131,21 @@ export function Navbar() {
                 className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                View Portfolios
+                Our Portfolios
               </Link>
               <Link 
                 to="/#add-ons" 
                 className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Explore Add Ons
+                Lihat Add-Ons
               </Link>
               <Link 
                 to="/contact" 
                 className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Contact & Socials
+                Get in touch with us
               </Link>
             </nav>
             
@@ -159,7 +159,7 @@ export function Navbar() {
                   className="text-white hover:text-white/70 transition-colors p-1.5 rounded-full border border-white/20 hover:border-white/50"
                   aria-label="WhatsApp"
                 >
-                  <Phone size={16} />
+                  <Phone size={15} />
                 </a>
                 <a 
                   href="https://wa.me/6281227663007" 
@@ -168,7 +168,7 @@ export function Navbar() {
                   className="text-white hover:text-white/70 transition-colors p-1.5 rounded-full border border-white/20 hover:border-white/50"
                   aria-label="WhatsApp"
                 >
-                  <Phone size={16} />
+                  <Phone size={15} />
                 </a>
                 <a 
                   href="https://instagram.com/faralljibrill_official" 
@@ -177,7 +177,7 @@ export function Navbar() {
                   className="text-white hover:text-white/70 transition-colors p-1.5 rounded-full border border-white/20 hover:border-white/50"
                   aria-label="Instagram"
                 >
-                  <Instagram size={16} />
+                  <Instagram size={15} />
                 </a>
               </div>
             </div>
