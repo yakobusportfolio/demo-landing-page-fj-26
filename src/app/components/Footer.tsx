@@ -8,8 +8,8 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-center md:text-left">
-            <h2 className="text-2xl font-serif tracking-wide mb-2">Faralljibrill Photography</h2>
-            <p className="text-white/60 text-sm">Capturing elegant moments, creating lasting memories.</p>
+            <h2 className="text-2xl md:text-3xl font-serif tracking-wide mb-2">FARALLJIBRILL PHOTOGRAPHY</h2>
+            <p className="text-white/60 text-sm">A walk to Remember.</p>
           </div>
 
           <div className="flex items-center gap-6">
