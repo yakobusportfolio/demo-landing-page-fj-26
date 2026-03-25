@@ -13,7 +13,7 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-6">
-            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">
+            <a href="https://www.instagram.com/faralljibrill_official/" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">
               <Instagram size={20} />
             </a>
             <a href="https://wa.me/6282111334334" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">

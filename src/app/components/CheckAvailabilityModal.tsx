@@ -128,21 +128,18 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
           {/* Modal Container */}
           <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center md:p-4 pointer-events-none">
             <motion.div
-              initial={{ 
-                opacity: 0, 
-                y: 100, // Slide up from bottom on mobile
-                scale: 0.95 
+              drag="y" // Mengizinkan tarikan secara vertikal (sumbu Y)
+              dragConstraints={{ top: 0, bottom: 0 }} // Membatasi agar tidak bisa ditarik ke atas, hanya membal
+              dragElastic={{ top: 0, bottom: 0.5 }} // Memberikan efek "karet" saat ditarik ke bawah
+              onDragEnd={(_, info) => {
+                // Jika ditarik ke bawah lebih dari 100 pixel, jalankan fungsi tutup
+                if (info.offset.y > 100) {
+                  onClose();
+                }
               }}
-              animate={{ 
-                opacity: 1, 
-                y: 0, 
-                scale: 1 
-              }}
-              exit={{ 
-                opacity: 0, 
-                y: 100,
-                scale: 0.95 
-              }}
+              initial={{ opacity: 0, y: 100, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 100, scale: 0.95 }}
               transition={{ 
                 type: "spring", 
                 damping: 25, 
@@ -151,7 +148,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
               className="w-full max-w-[480px] bg-white pointer-events-auto
                          rounded-t-[24px] md:rounded-[20px] 
                          shadow-2xl
-                         max-h-[92vh] md:max-h-[88vh]
+                         max-h-[85vh] md:max-h-[88vh]
                          overflow-hidden flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
@@ -161,7 +158,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
               {/* Close Button - Fixed at top right of modal */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-20
+                className="absolute top-7 right-7 z-20
                            w-10 h-10 md:w-11 md:h-11 
                            flex items-center justify-center
                            rounded-full 
