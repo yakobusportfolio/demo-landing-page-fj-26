@@ -24,17 +24,17 @@ interface Slide {
 const slides: Slide[] = [
   {
     title: "Luxury Wedding Photography",
-    subtitle: "Capture timeless and cinematic moments of your wedding day",
+    subtitle: "Rayakan pengalaman yang abadi: A walk to remember",
     image: IMAGES.hero.slides[0],
   },
   {
-    title: "Mini Studio Portrait Add-on",
-    subtitle: "Elegant studio-style portraits during your wedding celebration",
+    title: "Layanan Add-Ons: Photo Mini Studio",
+    subtitle: "Potret elegan bergaya studio di tengah perayaan pernikahan kamu",
     image: IMAGES.hero.slides[1],
   },
   {
     title: "Interactive Scan Barcode Experience",
-    subtitle: "Let your guests instantly access and relive your wedding moments",
+    subtitle: "Beri kemudahan bagi tamu undangan untuk mengakses foto momen Anda secara instan",
     image: IMAGES.hero.slides[2],
   },
 ];
