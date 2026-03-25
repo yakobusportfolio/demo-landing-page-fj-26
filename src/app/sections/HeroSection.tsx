@@ -168,7 +168,7 @@ export function HeroSection() {
       </button>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 md:px-8 max-w-4xl mx-auto pointer-events-none">
+      <div className="relative z-10 text-center px-6 md:px-8 max-w-4xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -188,29 +188,24 @@ export function HeroSection() {
           </motion.div>
         </AnimatePresence>
         
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 pointer-events-none"
-          >
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
+          {/* Tombol 1: Check Availability */}
           <button
             onClick={(e) => {
-              e.preventDefault();
               e.stopPropagation();
               open();
             }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              open();
-            }}>
-
-          Check Availability
-          </button
-            className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
+            className="w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
           >
-      
+            Check Availability
+          </button>
+  
+          {/* Tombol 2: Explore Add-Ons */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -218,21 +213,20 @@ export function HeroSection() {
                 behavior: "smooth"
               });
             }}
-            className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
+            className="w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
           >
+            Explore Add-Ons
+          </button>
 
-          Explore Add-Ons
-          </button
+          {/* Tombol 3: View Portfolio */}
           <Link 
             to="/portfolio"
-              onClick={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-            className="pointer-events-auto w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
+            onClick={(e) => e.stopPropagation()}
+            className="w-full sm:w-auto px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
           >
-
-          View Portfolio
+            View Portfolio
           </Link>
-            </motion.div>
+        </motion.div>
       </div>
 
       {/* Dot Indicators */}
