@@ -114,7 +114,7 @@ export function Navbar() {
             <nav className="flex flex-col items-center gap-8 md:gap-12 w-full max-w-lg px-6">
               <Link 
                 to="/" 
-                className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
+                className="text-2xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={(e) => {
                   // Cek apakah user sudah berada di halaman Home ("/")
                   if (location.pathname === "/") {
@@ -128,21 +128,21 @@ export function Navbar() {
               </Link>
               <Link 
                 to="/portfolio" 
-                className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
+                className="text-2xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Our Portfolios
               </Link>
               <Link 
                 to="/#add-ons" 
-                className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
+                className="text-2xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Lihat Add-Ons
               </Link>
               <Link 
                 to="/contact" 
-                className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
+                className="text-2xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Get in touch with us
