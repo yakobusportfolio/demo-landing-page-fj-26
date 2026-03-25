@@ -115,7 +115,14 @@ export function Navbar() {
               <Link 
                 to="/" 
                 className="text-3xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  // Cek apakah user sudah berada di halaman Home ("/")
+                  if (location.pathname === "/") {
+                    e.preventDefault(); // Mencegah router mengabaikan klik
+                    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll ke atas mulus
+                  }
+                  setIsMenuOpen(false); // Tetap tutup menu hamburger-nya
+                }}
               >
                 Home
               </Link>
