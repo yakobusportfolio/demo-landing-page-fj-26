@@ -13,6 +13,7 @@
  */
 
 import React, { useEffect, useState } from "react";
+import { supabase } from "../utils/supabaseClient";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Calendar, ChevronDown, Heart, Users, MapPin, MessageSquare, AtSign, CheckCircle2 } from "lucide-react";
@@ -71,29 +72,35 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
 
   const onSubmit = async (data: FormData) => {
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // 1. Mengirim data langsung ke Supabase
+      const { error } = await supabase
+        .from('submissions')
+        .insert([
+          { 
+            name: data.name, 
+            email: data.email, 
+            phone: data.phone,
+            event_date: data.event_date,
+            event_location: data.event_location,
+            instagram: data.social_media, // Memetakan field social_media ke kolom instagram di DB
+            message: data.message,
+            status: 'pending'
+          }
+        ]);
 
-      // Store submission in localStorage
-      const submissions = JSON.parse(localStorage.getItem("availabilitySubmissions") || "[]");
-      const newSubmission = {
-        id: Date.now().toString(),
-        ...data,
-        status: "pending",
-        submittedAt: new Date().toISOString(),
-        source: "modal",
-      };
-      submissions.push(newSubmission);
-      localStorage.setItem("availabilitySubmissions", JSON.stringify(submissions));
+      // 2. Jika ada error dari Supabase, lempar ke catch
+      if (error) throw error;
 
-      // Show success modal instead of toast
+      // 3. Jika berhasil, tampilkan modal sukses (bawaan kodinganmu yang sudah bagus!)
       setShowSuccessModal(true);
 
-      // Reset form
+      // 4. Bersihkan form
       reset();
-    } catch (error) {
-      toast.error("Something went wrong", {
-        description: "Please try again or contact us directly.",
+      
+    } catch (error: any) {
+      console.error("Supabase Error:", error.message);
+      toast.error("Gagal mengirim data", {
+        description: error.message || "Silakan coba lagi atau hubungi kami langsung.",
       });
     }
   };
@@ -560,4 +567,4 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
       )}
     </AnimatePresence>
   );
-}
+};

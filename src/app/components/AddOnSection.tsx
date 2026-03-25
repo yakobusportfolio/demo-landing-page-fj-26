@@ -26,7 +26,7 @@ export function AddOnSection({
   const { ref, isInView } = useInView();
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/6282111334334', 'https://wa.me/6281227663007', '_blank');
+    window.open('https://wa.me/1234567890', 'https://wa.me/1234567890', '_blank');
   };
 
   return (

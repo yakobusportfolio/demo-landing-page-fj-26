@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Calendar, Mail, Phone, MapPin, Instagram, User, Download, Trash2, AtSign, MessageSquare, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Calendar, Mail, Phone, MapPin, AtSign, User, Download, Trash2, CheckCircle, Clock, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
+import { toast } from "sonner";
+// 1. Import Supabase
+import { supabase } from "../utils/supabaseClient";
 
+// 2. Sesuaikan tipe data dengan kolom di database Supabase
 interface Submission {
   id: string;
   name: string;
@@ -11,44 +15,86 @@ interface Submission {
   phone: string;
   event_date: string;
   event_location: string;
-  social_media?: string;
+  instagram?: string; 
   message?: string;
   status: string;
-  submittedAt: string;
-  source?: string;
+  created_at: string; 
 }
 
 export function AdminSubmissions() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     loadSubmissions();
   }, []);
 
-  const loadSubmissions = () => {
-    const stored = localStorage.getItem("availabilitySubmissions");
-    if (stored) {
-      const data = JSON.parse(stored);
-      setSubmissions([...data].reverse()); // Show newest first
+  // 3. Mengambil data dari Supabase
+  const loadSubmissions = async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('submissions')
+        .select('*')
+        .order('created_at', { ascending: false }); // Urutkan dari yang terbaru
+
+      if (error) throw error;
+      
+      if (data) {
+        setSubmissions(data as Submission[]);
+      }
+    } catch (error: any) {
+      toast.error("Gagal memuat data: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 4. Menghapus data di Supabase
+  const deleteSubmission = async (id: string) => {
+    if (!window.confirm("Yakin ingin menghapus data ini permanen?")) return;
+
+    try {
+      const { error } = await supabase
+        .from('submissions')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Update tampilan setelah berhasil dihapus
+      setSubmissions(submissions.filter(s => s.id !== id));
+      toast.success("Data berhasil dihapus");
+    } catch (error: any) {
+      toast.error("Gagal menghapus: " + error.message);
+    }
+  };
+
+  // 5. Mengupdate status (Pending/Confirmed) ke Supabase
+  const updateStatus = async (id: string, newStatus: string) => {
+    try {
+      const { error } = await supabase
+        .from('submissions')
+        .update({ status: newStatus })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Update tampilan lokal
+      setSubmissions(submissions.map(s => s.id === id ? { ...s, status: newStatus } : s));
+      toast.success("Status diperbarui!");
+    } catch (error: any) {
+      toast.error("Gagal update status: " + error.message);
     }
   };
 
   const exportToCSV = () => {
     if (submissions.length === 0) return;
 
-    const headers = ["ID", "Name", "Email", "Phone", "Event Date", "Event Location", "Social Media", "Message", "Status", "Submitted At", "Source"];
+    const headers = ["ID", "Name", "Email", "Phone", "Event Date", "Location", "Instagram", "Message", "Status", "Submitted At"];
     const rows = submissions.map(s => [
-      s.id,
-      s.name,
-      s.email,
-      s.phone,
-      s.event_date,
-      s.event_location,
-      s.social_media || "",
-      s.message || "",
-      s.status,
-      new Date(s.submittedAt).toLocaleString(),
-      s.source || ""
+      s.id, s.name, s.email, s.phone, s.event_date, s.event_location,
+      s.instagram || "", s.message || "", s.status, new Date(s.created_at).toLocaleString()
     ]);
 
     const csvContent = [
@@ -60,28 +106,9 @@ export function AdminSubmissions() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `availability-submissions-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `inquiries-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
-  };
-
-  const clearSubmissions = () => {
-    if (window.confirm("Are you sure you want to delete all submissions?")) {
-      localStorage.removeItem("availabilitySubmissions");
-      setSubmissions([]);
-    }
-  };
-
-  const deleteSubmission = (id: string) => {
-    const updated = submissions.filter(s => s.id !== id);
-    localStorage.setItem("availabilitySubmissions", JSON.stringify(updated));
-    setSubmissions(updated);
-  };
-
-  const updateStatus = (id: string, newStatus: string) => {
-    const updated = submissions.map(s => s.id === id ? { ...s, status: newStatus } : s);
-    localStorage.setItem("availabilitySubmissions", JSON.stringify([...updated].reverse()));
-    setSubmissions(updated);
   };
 
   const getStatusBadge = (status: string) => {
@@ -107,36 +134,29 @@ export function AdminSubmissions() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#041e48]"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 pt-32 pb-24">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h1 className="text-4xl font-serif text-[#041e48] mb-2">Availability Inquiries</h1>
+            <h1 className="text-4xl font-serif text-[#041e48] mb-2">Supabase Dashboard</h1>
             <p className="text-gray-600">
-              {submissions.length} submission{submissions.length !== 1 ? "s" : ""} stored locally
+              {submissions.length} Total Inquiries
             </p>
           </div>
           <div className="flex gap-3">
             {submissions.length > 0 && (
-              <>
-                <Button
-                  onClick={exportToCSV}
-                  variant="outline"
-                  className="flex items-center gap-2"
-                >
-                  <Download size={18} />
-                  Export CSV
-                </Button>
-                <Button
-                  onClick={clearSubmissions}
-                  variant="destructive"
-                  className="flex items-center gap-2"
-                >
-                  <Trash2 size={18} />
-                  Clear All
-                </Button>
-              </>
+              <Button onClick={exportToCSV} variant="outline" className="flex items-center gap-2">
+                <Download size={18} /> Export CSV
+              </Button>
             )}
           </div>
         </div>
@@ -146,10 +166,8 @@ export function AdminSubmissions() {
             <div className="text-gray-400 mb-4">
               <Mail className="w-16 h-16 mx-auto mb-4 opacity-50" />
             </div>
-            <h3 className="text-xl font-serif text-gray-600 mb-2">No Submissions Yet</h3>
-            <p className="text-gray-500">
-              Inquiry submissions will appear here once clients submit the availability form.
-            </p>
+            <h3 className="text-xl font-serif text-gray-600 mb-2">Data Masih Kosong</h3>
+            <p className="text-gray-500">Belum ada klien yang mengisi form.</p>
           </Card>
         ) : (
           <div className="space-y-6">
@@ -168,12 +186,7 @@ export function AdminSubmissions() {
                         {submission.name}
                       </h3>
                       <p className="text-sm text-gray-500">
-                        Submitted {new Date(submission.submittedAt).toLocaleString()}
-                        {submission.source && (
-                          <span className="ml-2 text-xs bg-gray-100 px-2 py-0.5 rounded-full">
-                            via {submission.source}
-                          </span>
-                        )}
+                        Masuk pada: {new Date(submission.created_at).toLocaleString()}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -212,8 +225,8 @@ export function AdminSubmissions() {
                     <div className="flex items-center gap-3 text-gray-700">
                       <Phone size={18} className="text-[#041e48]" />
                       <div>
-                        <p className="text-xs text-gray-500">Phone</p>
-                        <a href={`tel:${submission.phone}`} className="hover:text-[#70161e]">
+                        <p className="text-xs text-gray-500">WhatsApp</p>
+                        <a href={`https://wa.me/${submission.phone.replace(/\D/g,'')}`} target="_blank" className="hover:text-[#70161e]">
                           {submission.phone}
                         </a>
                       </div>
@@ -222,7 +235,7 @@ export function AdminSubmissions() {
                     <div className="flex items-center gap-3 text-gray-700">
                       <Calendar size={18} className="text-[#041e48]" />
                       <div>
-                        <p className="text-xs text-gray-500">Event Date</p>
+                        <p className="text-xs text-gray-500">Tanggal Event</p>
                         <p>{new Date(submission.event_date).toLocaleDateString()}</p>
                       </div>
                     </div>
@@ -230,23 +243,23 @@ export function AdminSubmissions() {
                     <div className="flex items-center gap-3 text-gray-700">
                       <MapPin size={18} className="text-[#041e48]" />
                       <div>
-                        <p className="text-xs text-gray-500">Event Location</p>
+                        <p className="text-xs text-gray-500">Lokasi</p>
                         <p>{submission.event_location}</p>
                       </div>
                     </div>
 
-                    {submission.social_media && (
+                    {submission.instagram && (
                       <div className="flex items-center gap-3 text-gray-700">
                         <AtSign size={18} className="text-[#041e48]" />
                         <div>
-                          <p className="text-xs text-gray-500">Social Media</p>
+                          <p className="text-xs text-gray-500">Instagram</p>
                           <a
-                            href={`https://instagram.com/${submission.social_media.replace('@', '')}`}
+                            href={`https://instagram.com/${submission.instagram.replace('@', '')}`}
                             target="_blank"
                             rel="noreferrer"
                             className="hover:text-[#70161e]"
                           >
-                            {submission.social_media}
+                            {submission.instagram}
                           </a>
                         </div>
                       </div>
@@ -255,7 +268,7 @@ export function AdminSubmissions() {
 
                   {submission.message && (
                     <div className="mt-4 pt-4 border-t border-gray-200">
-                      <p className="text-xs text-gray-500 mb-2">Message</p>
+                      <p className="text-xs text-gray-500 mb-2">Pesan Tambahan</p>
                       <p className="text-gray-700 leading-relaxed">{submission.message}</p>
                     </div>
                   )}
@@ -264,15 +277,6 @@ export function AdminSubmissions() {
             ))}
           </div>
         )}
-
-        <div className="mt-12 p-6 bg-blue-50 border border-blue-200 rounded-xl">
-          <h3 className="text-lg font-serif text-[#041e48] mb-2">📋 Development Note</h3>
-          <p className="text-gray-700 leading-relaxed">
-            This is a demo view showing submissions stored in your browser's localStorage. 
-            In production, you would integrate with a backend service (like Supabase, Formspree, or your own API) 
-            to store submissions permanently, send email notifications, and access data across devices.
-          </p>
-        </div>
       </div>
     </div>
   );

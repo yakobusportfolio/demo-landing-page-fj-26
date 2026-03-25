@@ -22,7 +22,7 @@ HERO SLIDESHOW REQUIREMENTS:
 1. Convert hero background into a slideshow with 3 slides.
 
 2. Create image structure inside images.ts:
-
+**/
 hero: {
   slides: [
     "/images/hero/hero-slide-1.jpg",
@@ -30,7 +30,7 @@ hero: {
     "/images/hero/hero-slide-3.jpg"
   ]
 }
-
+/**
 3. Use IMAGES.hero.slides[index] inside the component
 - No hardcoded <img src="...">
 

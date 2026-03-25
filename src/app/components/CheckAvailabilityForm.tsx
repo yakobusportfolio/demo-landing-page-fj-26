@@ -1,46 +1,15 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "motion/react";
-import { Calendar, Mail, Phone, MapPin, Instagram, User, Send, CheckCircle2 } from "lucide-react";
+import { Calendar, Mail, Phone, Instagram, User, Send, CheckCircle2, MapPin } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 
-/**
- * CheckAvailabilityForm Component
- * 
- * This form captures prospective client inquiries including:
- * - Name, Email, Phone
- * - Event Date & Location
- * - Instagram handle (optional)
- * - Additional message (optional)
- * 
- * CURRENT IMPLEMENTATION:
- * - Stores submissions in localStorage (browser-only, for demo)
- * - View submissions at /admin route
- * - Export to CSV available
- * 
- * PRODUCTION BACKEND OPTIONS:
- * 
- * Option 1: Supabase (Full control)
- * - Create a table: availability_inquiries
- * - Add Row Level Security policies
- * - Use Supabase Edge Functions for email notifications
- * - Real-time updates, full database access
- * 
- * Option 2: Formspree (Simple)
- * - POST to https://formspree.io/f/{your-form-id}
- * - Automatic email notifications
- * - Spreadsheet export built-in
- * - No backend coding required
- * 
- * Option 3: Other services
- * - Google Sheets API
- * - Airtable
- * - Custom API endpoint
- */
+// --- PERUBAHAN DISINI: Import Supabase Client ---
+import { supabase } from "../utils/supabaseClient";
 
 interface FormData {
   name: string;
@@ -61,31 +30,46 @@ export function CheckAvailabilityForm() {
     reset,
   } = useForm<FormData>();
 
+  // --- PERUBAHAN DISINI: Logika onSubmit Baru ---
   const onSubmit = async (data: FormData) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const loadingToast = toast.loading("Sending your inquiry...");
 
-    // Store submission in localStorage (for demo purposes)
-    const submissions = JSON.parse(localStorage.getItem("availability_submissions") || "[]");
-    const newSubmission = {
-      ...data,
-      id: Date.now(),
-      timestamp: new Date().toISOString(),
-    };
-    submissions.push(newSubmission);
-    localStorage.setItem("availability_submissions", JSON.stringify(submissions));
+    try {
+      // Mengirim data ke tabel 'submissions' di Supabase
+      const { error } = await supabase
+        .from('submissions')
+        .insert([
+          { 
+            name: data.name, 
+            email: data.email, 
+            phone: data.phone,
+            event_date: data.eventDate,      // Pemetaan ke kolom DB
+            event_location: data.eventLocation,
+            instagram: data.instagram,
+            message: data.message,
+            status: 'pending'
+          }
+        ]);
 
-    // Show success state
-    setIsSubmitted(true);
-    toast.success("Inquiry Submitted!", {
-      description: "We'll get back to you within 24 hours.",
-    });
+      if (error) throw error;
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      reset();
-    }, 3000);
+      // Jika Berhasil
+      setIsSubmitted(true);
+      toast.success("Inquiry Submitted!", {
+        description: "We'll get back to you within 24 hours.",
+        id: loadingToast,
+      });
+
+      // Reset form setelah 3 detik
+      setTimeout(() => {
+        setIsSubmitted(false);
+        reset();
+      }, 3000);
+
+    } catch (error: any) {
+      console.error("Supabase Error:", error.message);
+      toast.error("Failed to send: " + error.message, { id: loadingToast });
+    }
   };
 
   if (isSubmitted) {
@@ -123,7 +107,6 @@ export function CheckAvailabilityForm() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Name Field */}
         <div className="space-y-2">
           <Label htmlFor="name" className="flex items-center gap-2 text-[#041e48]">
             <User size={18} />
@@ -131,21 +114,13 @@ export function CheckAvailabilityForm() {
           </Label>
           <Input
             id="name"
-            {...register("name", { 
-              required: "Name is required",
-              minLength: { value: 2, message: "Name must be at least 2 characters" }
-            })}
+            {...register("name", { required: "Name is required" })}
             placeholder="John & Jane Doe"
-            className="h-12 bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48]"
+            className="h-12 bg-white/50 border-gray-300"
           />
-          {errors.name && (
-            <p className="text-sm text-[#70161e] flex items-center gap-1">
-              {errors.name.message}
-            </p>
-          )}
+          {errors.name && <p className="text-sm text-[#70161e]">{errors.name.message}</p>}
         </div>
 
-        {/* Email Field */}
         <div className="space-y-2">
           <Label htmlFor="email" className="flex items-center gap-2 text-[#041e48]">
             <Mail size={18} />
@@ -154,24 +129,13 @@ export function CheckAvailabilityForm() {
           <Input
             id="email"
             type="email"
-            {...register("email", { 
-              required: "Email is required",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address"
-              }
-            })}
+            {...register("email", { required: "Email is required" })}
             placeholder="hello@example.com"
-            className="h-12 bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48]"
+            className="h-12 bg-white/50 border-gray-300"
           />
-          {errors.email && (
-            <p className="text-sm text-[#70161e] flex items-center gap-1">
-              {errors.email.message}
-            </p>
-          )}
+          {errors.email && <p className="text-sm text-[#70161e]">{errors.email.message}</p>}
         </div>
 
-        {/* Phone Field */}
         <div className="space-y-2">
           <Label htmlFor="phone" className="flex items-center gap-2 text-[#041e48]">
             <Phone size={18} />
@@ -179,74 +143,39 @@ export function CheckAvailabilityForm() {
           </Label>
           <Input
             id="phone"
-            type="tel"
-            {...register("phone", { 
-              required: "Phone number is required",
-              pattern: {
-                value: /^[\d\s\-\+\(\)]+$/,
-                message: "Invalid phone number"
-              }
-            })}
+            {...register("phone", { required: "Phone number is required" })}
             placeholder="+62 812-3456-7890"
-            className="h-12 bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48]"
+            className="h-12 bg-white/50 border-gray-300"
           />
-          {errors.phone && (
-            <p className="text-sm text-[#70161e] flex items-center gap-1">
-              {errors.phone.message}
-            </p>
-          )}
         </div>
 
-        {/* Event Date */}
-        <div className="space-y-2">
-          <Label htmlFor="eventDate" className="flex items-center gap-2 text-[#041e48]">
-            <Calendar size={18} />
-            <span>Event Date *</span>
-          </Label>
-          <Input
-            id="eventDate"
-            type="date"
-            {...register("eventDate", { 
-              required: "Event date is required",
-              validate: (value) => {
-                const selectedDate = new Date(value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                return selectedDate >= today || "Event date must be in the future";
-              }
-            })}
-            className="h-12 bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48]"
-          />
-          {errors.eventDate && (
-            <p className="text-sm text-[#70161e] flex items-center gap-1">
-              {errors.eventDate.message}
-            </p>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="eventDate" className="flex items-center gap-2 text-[#041e48]">
+              <Calendar size={18} />
+              <span>Event Date *</span>
+            </Label>
+            <Input
+              id="eventDate"
+              type="date"
+              {...register("eventDate", { required: "Date is required" })}
+              className="h-12 bg-white/50 border-gray-300"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="eventLocation" className="flex items-center gap-2 text-[#041e48]">
+              <MapPin size={18} />
+              <span>Event Location *</span>
+            </Label>
+            <Input
+              id="eventLocation"
+              {...register("eventLocation", { required: "Location is required" })}
+              placeholder="e.g., Bali"
+              className="h-12 bg-white/50 border-gray-300"
+            />
+          </div>
         </div>
 
-        {/* Event Location */}
-        <div className="space-y-2">
-          <Label htmlFor="eventLocation" className="flex items-center gap-2 text-[#041e48]">
-            <MapPin size={18} />
-            <span>Event Location *</span>
-          </Label>
-          <Input
-            id="eventLocation"
-            {...register("eventLocation", { 
-              required: "Event location is required",
-              minLength: { value: 3, message: "Location must be at least 3 characters" }
-            })}
-            placeholder="e.g., Bali, Jakarta, Bandung"
-            className="h-12 bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48]"
-          />
-          {errors.eventLocation && (
-            <p className="text-sm text-[#70161e] flex items-center gap-1">
-              {errors.eventLocation.message}
-            </p>
-          )}
-        </div>
-
-        {/* Instagram Handle */}
         <div className="space-y-2">
           <Label htmlFor="instagram" className="flex items-center gap-2 text-[#041e48]">
             <Instagram size={18} />
@@ -254,23 +183,12 @@ export function CheckAvailabilityForm() {
           </Label>
           <Input
             id="instagram"
-            {...register("instagram", {
-              pattern: {
-                value: /^@?[\w](?!.*?\.{2})[\w.]{1,28}[\w]$/,
-                message: "Invalid Instagram handle"
-              }
-            })}
+            {...register("instagram")}
             placeholder="@yourhandle"
-            className="h-12 bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48]"
+            className="h-12 bg-white/50 border-gray-300"
           />
-          {errors.instagram && (
-            <p className="text-sm text-[#70161e] flex items-center gap-1">
-              {errors.instagram.message}
-            </p>
-          )}
         </div>
 
-        {/* Additional Message */}
         <div className="space-y-2">
           <Label htmlFor="message" className="flex items-center gap-2 text-[#041e48]">
             <Send size={18} />
@@ -279,33 +197,18 @@ export function CheckAvailabilityForm() {
           <Textarea
             id="message"
             {...register("message")}
-            placeholder="Tell us more about your wedding vision, package preferences, or any specific questions..."
-            className="min-h-[120px] bg-white/50 border-gray-300 focus:border-[#041e48] focus:ring-[#041e48] resize-none"
+            placeholder="Tell us more..."
+            className="min-h-[100px] bg-white/50 border-gray-300 resize-none"
           />
         </div>
 
-        {/* Submit Button */}
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full h-14 bg-[#041e48] hover:bg-[#1b355e] text-white text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+          className="w-full h-14 bg-[#041e48] hover:bg-[#1b355e] text-white text-lg font-medium rounded-xl"
         >
-          {isSubmitting ? (
-            <span className="flex items-center gap-2">
-              <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></span>
-              Submitting...
-            </span>
-          ) : (
-            <span className="flex items-center gap-2">
-              <Send size={20} />
-              Submit Inquiry
-            </span>
-          )}
+          {isSubmitting ? "Submitting..." : "Submit Inquiry"}
         </Button>
-
-        <p className="text-sm text-gray-500 text-center mt-4">
-          By submitting this form, you agree to our privacy policy and terms of service.
-        </p>
       </form>
     </motion.div>
   );
