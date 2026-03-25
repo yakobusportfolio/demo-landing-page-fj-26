@@ -22,7 +22,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-7xl font-serif text-white mb-6 leading-tight"
         >
-          Customize Your Wedding Experience
+          Rancang Pengalaman Pernikahan Impian Mu
         </motion.h1>
         
         <motion.p 
@@ -31,7 +31,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light"
         >
-          Create a more memorable celebration with interactive photo experiences designed for you and your guests.
+          Ciptakan perayaan yang lebih berkesan dengan layanan add-ons, dirancang khusus untuk Anda, keluarga, dan tamu undangan.
         </motion.p>
         
         <motion.div 
@@ -44,19 +44,19 @@ export function Hero() {
             href="#contact"
             className="w-full sm:w-auto px-8 py-4 bg-[#041e48] hover:bg-[#1b355e] text-white rounded-full text-sm font-medium transition-colors text-center"
           >
-            Check Availability
+            Cek Ketersediaan
           </a>
           <a 
             href="#add-ons"
             className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
           >
-            Explore Add-Ons
+            Lihat Add-Ons
           </a>
           <a 
             href="#portfolio"
             className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-sm font-medium transition-colors text-center"
           >
-            View Portfolio
+            Lihat Portfolio Kami
           </a>
         </motion.div>
       </div>
