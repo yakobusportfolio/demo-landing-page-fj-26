@@ -31,7 +31,7 @@ export function Navbar() {
     <>
       {/* Primary Full Navbar - Visible only at the very top */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-100 transition-all duration-500 ${
           scrolled ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
         } ${
           isContactPage 
@@ -40,7 +40,7 @@ export function Navbar() {
         }`}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <Link to="/" className={`text-x1 md:text-2xl font-serif tracking-wide drop-shadow-sm ${
+          <Link to="/" className={`text-xl md:text-2xl font-serif tracking-wide drop-shadow-sm ${
             isContactPage ? "text-[#041e48]" : "text-white"
           }`}>
             Faralljibrill Photography
@@ -48,22 +48,22 @@ export function Navbar() {
           
           {/* Desktop Links */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link to="/portfolio" className={`text-sm tracking-wide hover:opacity-70 transition-opacity ${
+            <Link to="/portfolio" className={`text-lg tracking-wide hover:opacity-70 transition-opacity ${
               isContactPage ? "text-[#041e48]" : "text-white drop-shadow-md"
             }`}>
               Gallery
             </Link>
             <button 
               onClick={open}
-              className={`text-sm tracking-wide hover:opacity-70 transition-opacity bg-transparent border-0 cursor-pointer ${
+              className={`text-lg tracking-wide hover:opacity-70 transition-opacity bg-transparent border-0 cursor-pointer ${
                 isContactPage ? "text-[#041e48]" : "text-white drop-shadow-md"
               }`}
             >
-              Booking Now!
+              Check Availability
             </button>
             <Link 
               to="/contact" 
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-colors shadow-lg ${
+              className={`px-5 py-2.5 rounded-full text-lg font-medium transition-colors shadow-lg ${
                 isContactPage 
                   ? "bg-[#70161e] text-white hover:bg-[#70161e]/90" 
                   : "bg-white text-[#041e48] hover:bg-white/90"
@@ -138,7 +138,7 @@ export function Navbar() {
                 className="text-2xl md:text-5xl font-serif text-white hover:text-white/70 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Lihat Add-Ons
+                Explore Add-Ons
               </Link>
               <Link 
                 to="/contact" 

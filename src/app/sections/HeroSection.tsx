@@ -100,7 +100,7 @@ export function HeroSection() {
   return (
     <section 
       id="hero" 
-      className="relative h-screen flex items-center justify-center overflow-hidden group"
+      className="relative z-50 h-screen flex items-center justify-center overflow-hidden group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

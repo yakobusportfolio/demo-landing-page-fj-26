@@ -38,7 +38,18 @@ export function CTASection() {
         >
           <button
             onClick={handleWhatsApp}
-            className="flex items-center gap-2 px-8 py-4 bg-[#70161e] text-white rounded-full hover:opacity-90 transition-all shadow-lg"
+            className="w-full h-14 text-base font-semibold
+             /* Warna Awal: Maroon */
+             bg-[#70161e] text-white 
+             
+             /* Warna saat Hover: Navy (dari palet kamu) */
+             hover:bg-[#030213] 
+             
+             rounded-xl
+             transition-all duration-300
+             shadow-lg hover:shadow-xl
+             disabled:opacity-50 disabled:cursor-not-allowed
+             mt-2"
           >
             <Calendar className="w-5 h-5" />
             Check Availability
