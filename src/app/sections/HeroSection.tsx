@@ -100,7 +100,7 @@ export function HeroSection() {
   return (
     <section 
       id="hero" 
-      className="relative z-50 h-screen flex items-center justify-center overflow-hidden group"
+      className="relative z-85 h-screen flex items-center justify-center overflow-hidden group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -141,7 +141,7 @@ export function HeroSection() {
       {/* Navigation Arrows - Desktop Only (visible on hover) */}
       <button
         onClick={prevSlide}
-        className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-20
+        className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-[1000]
                    w-12 h-12 items-center justify-center
                    bg-white/10 hover:bg-white/20 backdrop-blur-md
                    border border-white/30 rounded-full

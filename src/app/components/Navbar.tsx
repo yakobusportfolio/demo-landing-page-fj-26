@@ -31,7 +31,7 @@ export function Navbar() {
     <>
       {/* Primary Full Navbar - Visible only at the very top */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-100 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 ${
           scrolled ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
         } ${
           isContactPage 
@@ -47,7 +47,7 @@ export function Navbar() {
           </Link>
           
           {/* Desktop Links */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8 z-[560]">
             <Link to="/portfolio" className={`text-lg tracking-wide hover:opacity-70 transition-opacity ${
               isContactPage ? "text-[#041e48]" : "text-white drop-shadow-md"
             }`}>
@@ -63,7 +63,7 @@ export function Navbar() {
             </button>
             <Link 
               to="/contact" 
-              className={`px-5 py-2.5 rounded-full text-lg font-medium transition-colors shadow-lg ${
+              className={`px-5 py-2.5 rounded-full text-lg font-medium transition-colors shadow-lg z-[550] ${
                 isContactPage 
                   ? "bg-[#70161e] text-white hover:bg-[#70161e]/90" 
                   : "bg-white text-[#041e48] hover:bg-white/90"
@@ -77,7 +77,7 @@ export function Navbar() {
 
       {/* Floating Hamburger Button - Visible when scrolled or on mobile */}
       <div 
-        className={`fixed top-6 right-6 z-50 transition-all duration-500 ${
+        className={`fixed top-6 right-6 z-50 transition-all duration-500 z-[999] ${
           !scrolled && !isMenuOpen ? "opacity-100 md:opacity-0 md:pointer-events-none" : "opacity-100"
         }`}
       >
