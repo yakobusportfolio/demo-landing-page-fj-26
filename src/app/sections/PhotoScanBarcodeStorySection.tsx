@@ -178,15 +178,14 @@ export function PhotoScanBarcodeStorySection() {
         </div>
       ) : (
        /* --- MOBILE VIEW (STRUKTUR CARD TETAP SAMA) --- */
-        <div className="flex flex-col bg-white pb-25">
+        <div className="flex flex-col bg-white pb-24">
           {/* Garis Aksen */}
-          <div className="relative w-full h-[1px] mx-auto mt-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#041e48] to-transparent" />
+          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#041e48]/20 to-transparent mt-12 mb-4">
           </div>
 
-          {/* 1. Header Mobile */}
-          <div className="bg-white p-12 text-left text-[#041e48]">
-              <h2 className="text-4xl font-serif leading-xtight">
+          {/* 2. Header Mobile (Ditambahkan padding top agar teks punya ruang napas) */}
+          <div className="bg-white px-8 pt-8 pb-10 text-left text-[#041e48]">
+            <h2 className="text-4xl font-serif leading-tight">
                 Photo Scan Barcode <br/>
                 <span className="italic text-[#041e48]">Experience</span>
               </h2>
@@ -194,13 +193,13 @@ export function PhotoScanBarcodeStorySection() {
 
           {/* 2. 🛠️ INFO BENEFITS (Hanya menyelipkan di sini) */}
           <div className="px-8 py-10 bg-[#041e48] space-y-8">
-            <p className="text-[#f5c767] text-[10px] font-bold uppercase tracking-[0.3em] text-center border-b border-white/10 pb-4">
+            <p className="text-white text-[10px] font-bold uppercase tracking-[0.3em] text-center border-b border-white/10 pb-4">
               Keunggulan Layanan:
             </p>
             <div className="grid grid-cols-1 gap-6">
               {benefits.map((b, i) => (
                 <div key={i} className="flex items-start gap-4 text-white">
-                  <div className="text-[#f5c767] shrink-0 mt-1">
+                  <div className="text-white shrink-0 mt-1">
                     {/* Icon tetap pakai ukuran asli agar aman */}
                     {b.icon}
                   </div>
@@ -246,11 +245,11 @@ export function PhotoScanBarcodeStorySection() {
                       ) : (
                         /* Kartu CTA Mobile */
                         <div className="absolute aspect-[3/2] space-y-6 inset-0 bg-[#041e48] p-8 text-center text-white flex flex-col justify-center items-center">
-                          <Sparkles size={32} className="text-[#f5c767] mb-6" />
+                          <Sparkles size={32} className="text-white mb-6" />
                           <h4 className="text-xl font-serif mb-4">Custom Frame?</h4>
                           <a 
                             href="https://wa.me/6282111334334" 
-                            className="px-8 py-3 bg-[#f5c767] text-[#041e48] rounded-full font-bold text-[10px] uppercase tracking-widest"
+                            className="px-8 py-3 bg-white text-[#041e48] rounded-full font-bold text-[10px] uppercase tracking-widest transition-all duration-300 active:scale-95 active:brightness-70 shadow-lg"
                           >
                             Tanya Admin
                           </a>
@@ -262,11 +261,17 @@ export function PhotoScanBarcodeStorySection() {
                   
                   {f.type !== 'cta' && (
                     
-                    <div className="absolute aspect-[3/2]px-6 space-y-12 inset-0 text-center px-4">
-                        <h4 className="font-serif text-xl text-[#041e48] font-bold">{f.name}</h4>
-                        <p className="text-gray-400 text-xs mt-1 leading-relaxed">{f.desc}</p>
-                    </div>
-                  )}
+                  <div className="relative text-center px-4 pt-2 pb-6 space-y-1">
+                  {/* Nama Frame */}
+                  <h4 className="font-serif text-xl text-[#041e48] font-bold">
+                    {f.name}
+                  </h4>
+                  {/* Deskripsi Frame */}
+                  <p className="text-gray-400 text-xs leading-relaxed max-w-[280px] mx-auto">
+                    {f.desc}
+                  </p>
+              </div>
+            )}
                 </div>
               ))}
           </div>

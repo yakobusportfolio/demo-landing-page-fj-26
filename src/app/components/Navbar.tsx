@@ -77,7 +77,7 @@ export function Navbar() {
 
       {/* Floating Hamburger Button - Visible when scrolled or on mobile */}
       <div 
-        className={`fixed top-6 right-6 z-50 transition-all duration-500 z-[999] ${
+        className={`fixed top-6 right-6 z-[1001] transition-all duration-500 ${
           !scrolled && !isMenuOpen ? "opacity-100 md:opacity-0 md:pointer-events-none" : "opacity-100"
         }`}
       >
@@ -103,7 +103,7 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-[#041e48] flex flex-col justify-center items-center"
+            className="fixed inset-0 z-[1000] bg-[#041e48] flex flex-col justify-center items-center"
           >
             <div className="absolute top-6 left-6">
               <Link to="/" className="text-lg font-serif tracking-wide text-white" onClick={() => setIsMenuOpen(false)}>

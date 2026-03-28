@@ -124,7 +124,9 @@ export function TestimonialsSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-serif text-[#041e48] mb-6">Cerita Kebahagiaan Mereka</h2>
-          <div className="w-24 h-1 bg-[#70161e] mx-auto rounded-full" />
+          <div className="relative w-88 h-[0.5px] mx-auto mt-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#041e48] to-transparent" />
+          </div>
         </motion.div>
 
         <div className="relative group max-w-7xl mx-auto">

@@ -267,15 +267,19 @@ export const IMAGES = {
    * Or embed a real map iframe — no image needed in that case.
    */
   contact: {
-    mapPlaceholder: "/images/contact/studio-map.jpg",
-    // → /images/contact/studio-map.jpg
-    maps: {
-      studio: {
-        embedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.9369721210146!2d110.77706397529236!3d-7.581839992432593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a15d57ae0dfc3%3A0x8a8bdd21653e75ee!2sFaralljibrill%20Photography%20(Official)!5e0!3m2!1sid!2sid!4v1774454611749!5m2!1sid!2sid" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
-        width: 600,
-        height: 450,
-      },
-    },
+    heroSlides:[
+     "/images/contact-images/contact-hero-1.jpg",
+     "/images/contact-images/contact-hero-2.jpg",
+     "/images/contact-images/contact-hero-3.jpg",
+     "/images/contact-images/contact-hero-4.jpg",
+     "/images/contact-images/contact-hero-5.jpg",
+     "/images/contact-images/contact-hero-6.jpg",
+     "/images/contact-images/contact-hero-7.jpg",
+     "/images/contact-images/contact-hero-8.jpg",
+     "/images/contact-images/contact-hero-9.jpg",
+     "/images/contact-images/contact-hero-10.jpg",
+     "/images/contact-images/contact-hero-11.jpg",
+    ],
   },
 
   /**
