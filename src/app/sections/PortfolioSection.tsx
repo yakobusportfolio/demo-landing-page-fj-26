@@ -50,7 +50,7 @@ export function PortfolioSection() {
               className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
               loading="lazy"
             />
-            <div className="absolute inset-0 flex flex-col justify-end p-10 z-20 backdrop-blur-[1px] group-hover:backdrop-blur-sm transition-all duration-500">
+            <div className="absolute inset-0 flex flex-col justify-end p-10 z-20 group-hover:backdrop-blur-sm transition-all duration-500">
               <div className="translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                 <h3 className="text-3xl font-serif mb-3">Photo Mini Studio</h3>
                 <p className="text-white/80 mb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 text-sm leading-relaxed">

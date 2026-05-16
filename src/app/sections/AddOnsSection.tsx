@@ -5,10 +5,10 @@ import { Camera, X, Sparkles, Clock, Palette, Users, Lightbulb, ChevronRight } f
 import { IMAGES } from "../constants/images";
 
 const BACKGROUND_OPTIONS = [
-  { name: "Classic Navy Abstract", image: IMAGES.addOns.backgroundOption.lightGrey, preview: IMAGES.addOns.backgroundPreview.lightGrey },
-  { name: "Midnight Grey Abstract", image: IMAGES.addOns.backgroundOption.darkGrey, preview: IMAGES.addOns.backgroundPreview.darkGrey },
-  { name: "Emerald Green Abstract", image: IMAGES.addOns.backgroundOption.darkGreen, preview: IMAGES.addOns.backgroundPreview.darkGreen },
-  { name: "Deep Terracotta Abstract", image: IMAGES.addOns.backgroundOption.terracotta, preview: IMAGES.addOns.backgroundPreview.terracotta },
+  { name: "Light Grey Abstract", image: IMAGES.addOns.backgroundOption.lightGrey, preview: IMAGES.addOns.backgroundPreview.lightGrey },
+  { name: "Dark Grey Abstract", image: IMAGES.addOns.backgroundOption.darkGrey, preview: IMAGES.addOns.backgroundPreview.darkGrey },
+  { name: "Dark Green Abstract", image: IMAGES.addOns.backgroundOption.darkGreen, preview: IMAGES.addOns.backgroundPreview.darkGreen },
+  { name: "Red Teracota Abstract", image: IMAGES.addOns.backgroundOption.terracotta, preview: IMAGES.addOns.backgroundPreview.terracotta },
 ];
 
 export function AddOnsSection() {
@@ -57,7 +57,7 @@ export function AddOnsSection() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-white/90 text-[10px] font-bold uppercase tracking-widest border border-white/20">
                   <Camera size={14} /> <span>Tambahan Mini Studio</span>
                 </div>
-                <h2 className="text-7xl font-serif text-white leading-tight">Photo Mini <br/> <span className="italic text-[#f5c767]">Studio</span></h2>
+                <h2 className="text-7xl font-serif text-white leading-tight">Photo Mini <br/> <span className="italic text-white">Studio</span></h2>
                 <p className="text-white/80 text-lg max-w-md leading-relaxed">Hadirkan suasana studio profesional ke dalam pesta pernikahanmu untuk hasil potret yang lebih personal dan elegan.</p>
               </div>
 
@@ -66,7 +66,7 @@ export function AddOnsSection() {
                 <div className="grid grid-cols-1 gap-y-5">
                   {facilities.map((item, i) => (
                     <div key={i} className="flex gap-4 items-center text-white">
-                      <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#f5c767]">{item.icon}</div>
+                      <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white">{item.icon}</div>
                       <p className="font-medium text-base tracking-wide">{item.t}</p>
                     </div>
                   ))}

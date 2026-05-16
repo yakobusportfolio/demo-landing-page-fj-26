@@ -81,17 +81,17 @@ export function PhotoScanBarcodeStorySection() {
           >
             <img src={IMAGES.scanBarcode.introBg} className="absolute inset-0 w-full h-full object-cover opacity-30" alt="Intro" />
             <div className="relative z-10 max-w-6xl w-full text-center px-20 space-y-12">
-              <h2 className="text-7xl font-serif text-white leading-tight">Photo Scan Barcode <br/><span className="italic text-[#ffffff]">Experience</span></h2>
+              <h2 className="text-7xl font-serif text-white leading-tight">Photo Scan Barcode <br/><span className="italic text-white">Experience</span></h2>
               <div className="grid grid-cols-3 gap-8">
                 {benefits.map((b, i) => (
                   <div key={i} className={`p-8 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 flex flex-col items-center gap-4 ${i >= 3 ? 'col-span-1 transform lg:translate-x-1/2' : ''}`}>
-                    <div className="text-[#f5c767]">{b.icon}</div>
+                    <div className="text-white">{b.icon}</div>
                     <h4 className="text-white font-bold text-xs uppercase tracking-widest">{b.title}</h4>
                     <p className="text-white/50 text-[11px] leading-relaxed">{b.desc}</p>
                   </div>
                 ))}
               </div>
-              <p className="text-[#f5c767] text-[10px] font-bold uppercase tracking-[0.5em] pt-8 animate-pulse">Scroll untuk galeri ↓</p>
+              <p className="text-white text-[10px] font-bold uppercase tracking-[0.5em] pt-8 animate-pulse">Scroll untuk galeri ↓</p>
             </div>
           </motion.div>
 
@@ -113,14 +113,14 @@ export function PhotoScanBarcodeStorySection() {
           <div className="w-[42vw] space-y-8">
             <div className="relative aspect-[3/2] flex flex-col items-center justify-center bg-gradient-to-br from-[#041e48] to-[#1b355e] rounded-xs shadow-2xl p-16 text-center text-white border border-white/10 group overflow-hidden">
               <div className="relative z-10">
-                <Sparkles size={64} className="text-[#f5c767] mb-6 group-hover:scale-110 transition-transform duration-500" />
-                <h4 className="text-4xl font-serif mb-4 leading-tight">{card.name}</h4>
-                <p className="text-white/60 text-lg mb-10 max-w-sm mx-auto leading-relaxed">{card.desc}</p>
+                <Sparkles size={40} className="text-white mb-6 group-hover:scale-110 transition-transform duration-500" />
+                <h4 className="text-3xl font-serif mb-4 leading-tight">{card.name}</h4>
+                <p className="text-white/60 text-sm md:text-base mb-10 max-w-sm mx-auto leading-relaxed">{card.desc}</p>
                 <a 
                   href="https://wa.me/6282111334334" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="px-16 py-5 bg-[#f5c767] text-[#041e48] rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white transition-all shadow-xl inline-block"
+                  className="px-12 py-3 bg-white text-[#041e48] rounded-full font-bold text-xs uppercase tracking-widest hover:bg-[#1b355e] hover:text-white transition-all shadow-xl inline-block"
                 >
                   Tanya Admin
                 </a>
@@ -172,7 +172,7 @@ export function PhotoScanBarcodeStorySection() {
   
   {/* Navigasi Scroll Bawah */}
   <div className="absolute bottom-12 left-0 right-0 text-center pointer-events-none">
-    <p className="text-[10px] font-bold text-[#70161e] uppercase tracking-[0.4em] animate-pulse">Scroll / Swipe untuk melihat lainnya →</p>
+    <p className="text-[10px] font-bold text-[#041e48] uppercase tracking-[0.4em] animate-pulse">Scroll / Swipe untuk melihat lainnya →</p>
   </div>
 </motion.div>
         </div>
@@ -227,7 +227,7 @@ export function PhotoScanBarcodeStorySection() {
                       {f.type !== 'cta' ? (
                         <>
                           {/* Layer Foto - Settingan insets milikmu tetap terjaga */}
-                          <div className="absolute md:top-[3%] md:bottom-[3%] md:left-[4%] md:right-[4%] overflow-hidden rounded-sm">
+                          <div className="absolute md:top-[3%] md:bottom-[4%] left-[3%] md:left-[3%] right-[3%] md:right-[3%] overflow-hidden rounded-sm">
                             <img 
                               src={photos[photoIndex]} 
                               className="w-full h-full object-cover transition-opacity duration-1000" 

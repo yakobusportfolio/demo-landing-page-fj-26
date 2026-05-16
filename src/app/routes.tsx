@@ -3,8 +3,6 @@ import { RootLayout } from "./components/RootLayout";
 import Home from "./pages/Home";
 import { PortfolioPage } from "./pages/PortfolioPage";
 import { ContactPage } from "./pages/ContactPage";
-import { AdminSubmissions } from "./components/AdminSubmissions";
-
 
 export const router = createBrowserRouter([
   {
@@ -14,7 +12,6 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "portfolio", Component: PortfolioPage },
       { path: "contact", Component: ContactPage },
-      { path: "admin", Component: AdminSubmissions },
     ],
   },
 ]);
