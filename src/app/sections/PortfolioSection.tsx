@@ -80,7 +80,7 @@ export function PortfolioSection() {
               loading="lazy"
             />
             <div 
-              className="absolute inset-0 flex flex-col justify-end p-10 z-20 backdrop-blur-[1px] group-hover:backdrop-blur-sm transition-all duration-500"
+              className="absolute inset-0 flex flex-col justify-end p-10 z-20 group-hover:backdrop-blur-sm transition-all duration-500"
             >
               <div className="translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                 <h3 className="text-3xl font-serif mb-3">Photo Scan Barcode</h3>

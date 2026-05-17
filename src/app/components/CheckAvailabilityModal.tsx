@@ -1,18 +1,18 @@
 /**
  * Check Availability Modal Component
- * 
- * A high-converting modal overlay for wedding booking inquiries.
+ * * A high-converting modal overlay for wedding booking inquiries.
  * Features:
  * - Mobile-first design (bottom sheet on mobile, centered on desktop)
  * - Elegant wedding aesthetic with soft neutral tones
  * - Form validation with react-hook-form
  * - Success/error states with toast notifications
  * - Smooth animations and transitions
- * - Background scroll lock
- * - Keyboard and touch-friendly interactions
+ * - Safe Background scroll lock (Tailwind based)
+ * - React Portal to Root (Z-index fix without breaking sticky elements)
  */
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { supabase } from "../utils/supabaseClient";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
@@ -47,19 +47,20 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
     reset,
   } = useForm<FormData>();
 
-  // Lock background scroll when modal is open
+  // PERBAIKAN 1: Scroll Lock Super Aman menggunakan class Tailwind
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
+    if (isOpen || showSuccessModal) {
+      document.body.classList.add("overflow-hidden");
     } else {
-      document.body.style.overflow = "unset";
+      document.body.classList.remove("overflow-hidden");
     }
+    
+    // Pastikan class dihapus jika komponen dibongkar (unmount)
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.classList.remove("overflow-hidden");
     };
-  }, [isOpen]);
+  }, [isOpen, showSuccessModal]);
 
-  // Close on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -72,7 +73,6 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
 
   const onSubmit = async (data: FormData) => {
     try {
-      // 1. Mengirim data langsung ke Supabase
       const { error } = await supabase
         .from('submissions')
         .insert([
@@ -82,19 +82,15 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
             phone: data.phone,
             event_date: data.event_date,
             event_location: data.event_location,
-            instagram: data.social_media, // Memetakan field social_media ke kolom instagram di DB
+            instagram: data.social_media, 
             message: data.message,
             status: 'pending'
           }
         ]);
 
-      // 2. Jika ada error dari Supabase, lempar ke catch
       if (error) throw error;
 
-      // 3. Jika berhasil, tampilkan modal sukses (bawaan kodinganmu yang sudah bagus!)
       setShowSuccessModal(true);
-
-      // 4. Bersihkan form
       reset();
       
     } catch (error: any) {
@@ -107,10 +103,15 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    onClose(); // Close the main modal as well
+    onClose(); 
   };
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  // PERBAIKAN 2: Target portal dipindah ke #root agar tidak memecah layout utama body
+  const portalTarget = document.getElementById("root") || document.body;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -120,19 +121,18 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90]"
             onClick={onClose}
             aria-hidden="true"
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center md:p-4 pointer-events-none">
+          <div className="fixed inset-0 z-[100] flex items-end justify-center md:items-center md:p-4 pointer-events-none">
             <motion.div
-              drag="y" // Mengizinkan tarikan secara vertikal (sumbu Y)
-              dragConstraints={{ top: 0, bottom: 0 }} // Membatasi agar tidak bisa ditarik ke atas, hanya membal
-              dragElastic={{ top: 0, bottom: 0.5 }} // Memberikan efek "karet" saat ditarik ke bawah
+              drag="y" 
+              dragConstraints={{ top: 0, bottom: 0 }} 
+              dragElastic={{ top: 0, bottom: 0.5 }} 
               onDragEnd={(_, info) => {
-                // Jika ditarik ke bawah lebih dari 100 pixel, jalankan fungsi tutup
                 if (info.offset.y > 100) {
                   onClose();
                 }
@@ -155,7 +155,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
               aria-modal="true"
               aria-labelledby="modal-title"
             >
-              {/* Close Button - Fixed at top right of modal */}
+              {/* Close Button */}
               <button
                 onClick={onClose}
                 className="absolute top-7 right-7 z-20
@@ -398,7 +398,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                     />
                   </div>
 
-                  {/* Trust Signals - Moved above button */}
+                  {/* Trust Signals */}
                   <div className="pt-2 pb-4 bg-[#041e48]/5 -mx-6 md:-mx-10 px-6 md:px-10 rounded-xl">
                     <div className="flex items-center justify-center gap-6 text-sm text-gray-600">
                       <span className="flex items-center gap-2">
@@ -412,7 +412,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                     </div>
                   </div>
 
-                  {/* CTA Button */}
+                  {/* Submit Button */}
                   <Button
                     type="submit"
                     disabled={isSubmitting}
@@ -437,14 +437,12 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                     )}
                   </Button>
 
-                  {/* Response Time */}
                   <p className="text-sm text-center text-gray-500 pt-2">
                     ⚡ We'll respond within 24 hours
                   </p>
                 </form>
               </div>
 
-              {/* Safe Area Padding (iOS) */}
               <div className="pb-safe" />
             </motion.div>
           </div>
@@ -454,106 +452,59 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
       {/* Success Modal */}
       {showSuccessModal && (
         <>
-          {/* Overlay - Darker with more blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[60]"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[110]"
             onClick={handleCloseSuccessModal}
             aria-hidden="true"
           />
 
-          {/* Success Modal - Smaller and Centered */}
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 pointer-events-none">
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 pointer-events-none">
             <motion.div
-              initial={{ 
-                opacity: 0, 
-                scale: 0.9,
-                y: 20
-              }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                y: 0
-              }}
-              exit={{ 
-                opacity: 0, 
-                scale: 0.9,
-                y: 20
-              }}
-              transition={{ 
-                type: "spring", 
-                damping: 20, 
-                stiffness: 300 
-              }}
-              className="w-full max-w-[400px] pointer-events-auto
-                         rounded-2xl overflow-hidden
-                         relative"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className="w-full max-w-[400px] pointer-events-auto rounded-2xl overflow-hidden relative"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
               aria-labelledby="success-modal-title"
             >
-              {/* Glassmorphism Background */}
-              <div className="absolute inset-0 bg-white/95 backdrop-blur-xl
-                            border border-white/20 rounded-2xl shadow-2xl" />
+              <div className="absolute inset-0 bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl" />
               
-              {/* Content */}
               <div className="relative p-8 text-center">
-                {/* Success Icon with Animation */}
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ 
-                    type: "spring", 
-                    damping: 15, 
-                    stiffness: 300,
-                    delay: 0.1
-                  }}
+                  transition={{ type: "spring", damping: 15, stiffness: 300, delay: 0.1 }}
                   className="flex justify-center mb-5"
                 >
                   <div className="relative">
-                    {/* Glow Effect */}
                     <div className="absolute inset-0 bg-[#70161e]/20 blur-2xl rounded-full scale-150" />
-                    
-                    {/* Icon Container */}
-                    <div className="relative w-20 h-20 rounded-full 
-                                  bg-gradient-to-br from-[#70161e] to-[#70161e]/80
-                                  flex items-center justify-center
-                                  shadow-lg shadow-[#70161e]/30">
+                    <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[#70161e] to-[#70161e]/80 flex items-center justify-center shadow-lg shadow-[#70161e]/30">
                       <CheckCircle2 className="w-10 h-10 text-white" strokeWidth={2.5} />
                     </div>
                   </div>
                 </motion.div>
 
-                {/* Title */}
-                <h3 
-                  id="success-modal-title"
-                  className="text-2xl font-serif text-[#041e48] mb-3"
-                >
+                <h3 id="success-modal-title" className="text-2xl font-serif text-[#041e48] mb-3">
                   Message Sent!
                 </h3>
 
-                {/* Description */}
                 <p className="text-base text-gray-600 leading-relaxed mb-2">
                   Your inquiry has been successfully submitted.
                 </p>
-                
                 <p className="text-base text-gray-700 font-medium leading-relaxed">
                   Our admin will immediately follow up with you via WhatsApp.
                 </p>
 
-                {/* Close Button */}
                 <Button
                   onClick={handleCloseSuccessModal}
-                  className="w-full h-12 text-base font-semibold
-                           bg-[#70161e] hover:bg-[#70161e]/90
-                           text-white rounded-xl
-                           transition-all duration-300
-                           shadow-lg hover:shadow-xl hover:scale-[1.02]
-                           mt-6"
+                  className="w-full h-12 text-base font-semibold bg-[#70161e] hover:bg-[#70161e]/90 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] mt-6"
                 >
                   Got it!
                 </Button>
@@ -562,6 +513,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
           </div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    portalTarget
   );
-};
+}
