@@ -1,6 +1,6 @@
-import React from "react";
+
 import { Instagram, Mail, Phone } from "lucide-react";
-import { Link } from "react-router";
+
 
 export function Footer() {
   return (

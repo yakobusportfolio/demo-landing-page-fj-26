@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 import { MessageCircle, Calendar } from "lucide-react";
 import { IMAGES } from "../constants/images";

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion } from "motion/react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 

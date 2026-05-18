@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "motion/react";
 import { Calendar, Mail, Phone, Instagram, User, Send, CheckCircle2, MapPin } from "lucide-react";

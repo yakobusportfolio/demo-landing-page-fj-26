@@ -4,8 +4,15 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "dev": "vite"
+    "dev"          : "vite",
+    "build"        : "vite build",
+    "preview"      : "vite preview",
+    "typecheck"    : "tsc --noEmit",
+    "audit"        : "pnpm audit",
+    "audit:fix"    : "pnpm audit --fix",
+    "audit:prod"   : "pnpm audit --prod",
+    "outdated"     : "pnpm outdated",
+    "security:check": "pnpm audit && pnpm outdated"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -73,7 +80,8 @@
     "@types/react-responsive-masonry": "^2.7.0",
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",
-    "vite": "^6.4.2"
+    "typescript": "^5.7.3",
+    "vite": "6.4.2"
   },
   "peerDependencies": {
     "react": "18.3.1",
@@ -89,7 +97,7 @@
   },
   "pnpm": {
     "overrides": {
-      "vite": "6.3.5"
+      "vite": "6.4.2"
     }
   }
 }

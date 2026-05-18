@@ -167,7 +167,7 @@ export function isImageConstant(value: unknown): value is string {
 }
 
 // Development-only logging
-if (process.env.NODE_ENV === "development") {
+if (import.meta.env.DEV) {
   // Log image statistics on module load
   const stats = getImageStats();
   console.log("📊 Image Management System Stats:", stats);
@@ -198,7 +198,7 @@ if (process.env.NODE_ENV === "development") {
  * 
  * function MyComponent() {
  *   // In development, validate the path
- *   if (process.env.NODE_ENV === "development") {
+ *   if (import.meta.env.DEV) {
  *     validateImagePath(IMAGES.hero.main, "HeroSection");
  *   }
  *   

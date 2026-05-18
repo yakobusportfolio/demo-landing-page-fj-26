@@ -1,8 +1,23 @@
+/**
+ * App.tsx — Faralljibrill Photography
+ * ─────────────────────────────────────────────────────────────────────────
+ * Lokasi: src/app/App.tsx
+ * Entry point aplikasi. Menginisialisasi router dan security measures.
+ * ─────────────────────────────────────────────────────────────────────────
+ */
+
 import { useEffect } from "react";
 import { RouterProvider } from "react-router";
 import { router } from "./routes";
+import { initSecurityMeasures } from "./utils/security-utils"; // ← Security utils
 
 export default function App() {
+  // ─── Security: Inisialisasi satu kali saat app mount ──────────────────
+  useEffect(() => {
+    initSecurityMeasures();
+  }, []);
+
+  // ─── UX: Scrollbar visibility management ──────────────────────────────
   useEffect(() => {
     let scrollTimeout: ReturnType<typeof setTimeout>;
 
@@ -15,7 +30,7 @@ export default function App() {
       // Bersihkan timer lama
       clearTimeout(scrollTimeout);
 
-      // Sembunyikan kembali setelah 800ms (kurang dari 1 detik agar terasa sigap)
+      // Sembunyikan kembali setelah 800ms
       scrollTimeout = setTimeout(() => {
         document.body.classList.remove("is-scrolling");
       }, 800);
@@ -23,11 +38,11 @@ export default function App() {
 
     // Gunakan 'wheel' untuk mouse/trackpad agar lebih akurat mendeteksi gesture
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("wheel", handleScroll, { passive: true });
-    
+    window.addEventListener("wheel",  handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("wheel",  handleScroll);
       clearTimeout(scrollTimeout);
     };
   }, []);

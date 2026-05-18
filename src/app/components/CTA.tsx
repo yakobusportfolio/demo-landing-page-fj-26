@@ -1,4 +1,4 @@
-import React from "react";
+
 import { motion } from "motion/react";
 import { MessageCircle, Calendar } from "lucide-react";
 import { Link } from "react-router";

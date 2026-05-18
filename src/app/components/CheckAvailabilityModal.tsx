@@ -11,12 +11,13 @@
  * - React Portal to Root (Z-index fix without breaking sticky elements)
  */
 
-import React, { useEffect, useState } from "react";
+
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { supabase } from "../utils/supabaseClient";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Calendar, ChevronDown, Heart, Users, MapPin, MessageSquare, AtSign, CheckCircle2 } from "lucide-react";
+import { X, Calendar, Heart, Users, MapPin, AtSign, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -228,7 +229,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                         },
                       })}
                       placeholder="e.g. Sarah & John"
-                      className={`h-13 text-base border-2 ${
+                      className={`h-12 text-base border-2 ${
                         errors.name 
                           ? "border-red-400 focus-visible:ring-red-400" 
                           : "border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
@@ -258,7 +259,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                         },
                       })}
                       placeholder="yourname@email.com"
-                      className={`h-13 text-base border-2 ${
+                      className={`h-12 text-base border-2 ${
                         errors.email 
                           ? "border-red-400 focus-visible:ring-red-400" 
                           : "border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
@@ -288,7 +289,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                         },
                       })}
                       placeholder="+62 812 3456 7890"
-                      className={`h-13 text-base border-2 ${
+                      className={`h-12 text-base border-2 ${
                         errors.phone 
                           ? "border-red-400 focus-visible:ring-red-400" 
                           : "border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
@@ -321,7 +322,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                           },
                         })}
                         min={new Date().toISOString().split("T")[0]}
-                        className={`h-13 text-base border-2 ${ 
+                        className={`h-12 text-base border-2 ${ 
                           errors.event_date 
                             ? "border-red-400 focus-visible:ring-red-400" 
                             : "border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
@@ -349,7 +350,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                           required: "Please enter the event location",
                         })}
                         placeholder="e.g. Bali, Jakarta, Bandung"
-                        className={`h-13 text-base pr-11 border-2 ${
+                        className={`h-12 text-base pr-11 border-2 ${ 
                           errors.event_location 
                             ? "border-red-400 focus-visible:ring-red-400" 
                             : "border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
@@ -375,7 +376,7 @@ export function CheckAvailabilityModal({ isOpen, onClose }: CheckAvailabilityMod
                         id="modal-socialMedia"
                         {...register("social_media")}
                         placeholder="@yourusername (Instagram/TikTok)"
-                        className="h-13 text-base pr-11 border-2 border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
+                        className="h-12 text-base pr-11 border-2 border-gray-200 focus-visible:ring-[#70161e] focus-visible:border-[#70161e]"
                       />
                       <AtSign className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#70161e] pointer-events-none" />
                     </div>
