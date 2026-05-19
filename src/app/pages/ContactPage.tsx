@@ -141,7 +141,6 @@ function usePreferReducedMotion() {
 // COMPONENTS
 // ============================================================================
 
-// --- FAQ Item Component ---
 function FAQItem({ question, answer, index }: FAQItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -195,10 +194,10 @@ function FAQItem({ question, answer, index }: FAQItemProps) {
   );
 }
 
-// --- Slideshow Indicators ---
 function SlideshowIndicators({ currentImg, total, onDotClick }: SlideshowIndicatorsProps) {
   return (
-    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+    // PERBAIKAN: Ditambahkan pointer-events-auto agar indikator tetap bisa diklik
+    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2 pointer-events-auto">
       {Array.from({ length: total }).map((_, i: number) => (
         <button
           key={i}
@@ -216,7 +215,6 @@ function SlideshowIndicators({ currentImg, total, onDotClick }: SlideshowIndicat
   );
 }
 
-// --- Social Links Section ---
 function SocialLinksSection() {
   return (
     <div className="space-y-4 mb-16">
@@ -224,14 +222,12 @@ function SocialLinksSection() {
         Get in Touch with Us
       </h4>
 
-      {/* WhatsApp Links */}
       <div className="flex flex-col sm:flex-row gap-3">
         <a
           href="https://wa.me/6282111334334"
           target="_blank"
           rel="noreferrer"
           className="flex-1 flex items-center justify-center gap-3 py-4 bg-gray-50 rounded-2xl hover:bg-[#25D366]/10 transition-all active:scale-95 border border-transparent hover:border-[#25D366]/20 focus:outline-none focus:ring-2 focus:ring-[#25D366]/50"
-          aria-label="Contact Admin Intan via WhatsApp"
         >
           <MessageCircle size={16} className="text-[#25D366]" aria-hidden="true" />
           <span className="text-xs font-bold text-[#041e48]">Admin Intan</span>
@@ -241,14 +237,12 @@ function SocialLinksSection() {
           target="_blank"
           rel="noreferrer"
           className="flex-1 flex items-center justify-center gap-3 py-4 bg-gray-50 rounded-2xl hover:bg-[#25D366]/10 transition-all active:scale-95 border border-transparent hover:border-[#25D366]/20 focus:outline-none focus:ring-2 focus:ring-[#25D366]/50"
-          aria-label="Contact Admin Putri via WhatsApp"
         >
           <MessageCircle size={16} className="text-[#25D366]" aria-hidden="true" />
           <span className="text-xs font-bold text-[#041e48]">Admin Putri</span>
         </a>
       </div>
 
-      {/* Social Media Grid */}
       <div className="grid grid-cols-3 gap-3">
         {SOCIAL_LINKS.map((social) => {
           const Icon = social.icon;
@@ -273,7 +267,6 @@ function SocialLinksSection() {
   );
 }
 
-// --- Why Choose Us Section ---
 function WhyChooseUsSection() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16 border-t border-gray-100 pt-10">
@@ -294,7 +287,6 @@ function WhyChooseUsSection() {
   );
 }
 
-// --- Maps & Location Section ---
 function MapsSection() {
   const [mapsLoaded, setMapsLoaded] = useState(false);
 
@@ -317,7 +309,6 @@ function MapsSection() {
         </div>
       </div>
 
-      {/* Maps Container */}
       <div className="relative rounded-[1rem] overflow-hidden h-[350px] border border-gray-200 shadow-sm bg-gray-100">
         {!mapsLoaded && (
           <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse flex items-center justify-center">
@@ -355,7 +346,6 @@ function MapsSection() {
   );
 }
 
-// --- Reservation Card ---
 function ReservationCard({ onOpen }: ReservationCardProps) {
   return (
     <div className="bg-[#041e48] rounded-[2.5rem] p-8 md:p-10 text-center text-white shadow-2xl mb-16 relative overflow-hidden group">
@@ -389,7 +379,6 @@ export function ContactPage() {
   const slides = IMAGES.contact?.heroSlides || [];
   const slidesLength = slides.length;
 
-  // ✅ Auto-Slideshow dengan pause/play support
   useEffect(() => {
     if (!isPlaying || prefersReducedMotion) return;
 
@@ -402,7 +391,6 @@ export function ContactPage() {
     };
   }, [slidesLength, isPlaying, prefersReducedMotion]);
 
-  // ✅ Keyboard Navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
@@ -420,7 +408,6 @@ export function ContactPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [slidesLength]);
 
-  // ✅ Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -435,11 +422,12 @@ export function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      <section className="relative w-full lg:h-screen flex flex-col lg:flex-row overflow-hidden">
-        {/* SISI KIRI: IMMERSIVE SLIDESHOW */}
+    <div className="min-h-screen bg-white">
+      <section className="relative w-full flex flex-col lg:flex-row">
+        
+        {/* SISI KIRI: Ditambahkan pointer-events-none agar tidak menahan scroll mouse/swipe */}
         <div
-          className="w-full lg:w-1/2 h-[50vh] md:h-[65vh] lg:h-full relative overflow-hidden bg-[#041e48]"
+          className="fixed top-0 left-0 w-full lg:w-1/2 h-[50vh] md:h-[60vh] lg:h-screen z-0 overflow-hidden bg-[#041e48] pointer-events-none"
           role="region"
           aria-label="Hero slideshow"
         >
@@ -470,22 +458,19 @@ export function ContactPage() {
             )}
           </AnimatePresence>
 
-          {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#041e48]/90 via-[#041e48]/20 to-transparent lg:bg-gradient-to-r" />
 
-          {/* Slideshow Controls */}
           {slides.length > 0 && (
             <>
-              {/* Play/Pause Button */}
+              {/* PERBAIKAN: Tombol kembali diberi pointer-events-auto agar tetap bisa diklik */}
               <button
                 onClick={handlePausePlay}
                 aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
-                className="absolute top-6 right-6 z-20 p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
+                className="absolute top-6 right-6 z-20 p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white/50 pointer-events-auto"
               >
                 {isPlaying ? <Pause size={20} /> : <Play size={20} />}
               </button>
 
-              {/* Indicators */}
               {slides.length > 1 && (
                 <SlideshowIndicators
                   currentImg={currentImg}
@@ -494,7 +479,6 @@ export function ContactPage() {
                 />
               )}
 
-              {/* Keyboard Hint */}
               <div className="absolute top-6 left-6 z-20 hidden md:block">
                 <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">
                   ← → untuk navigasi
@@ -503,8 +487,7 @@ export function ContactPage() {
             </>
           )}
 
-          {/* Hero Text */}
-          <div className="absolute bottom-8 md:bottom-12 left-6 md:left-16 z-10 max-w-md">
+          <div className="absolute bottom-12 md:bottom-16 left-6 md:left-16 z-10 max-w-md">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -523,15 +506,19 @@ export function ContactPage() {
           </div>
         </div>
 
-        {/* SISI KANAN: KONTEN */}
-        <div className="w-full lg:w-1/2 bg-white flex flex-col pt-12 md:pt-20 lg:pt-32 pb-20 px-6 md:px-12 lg:px-20 overflow-y-auto max-h-[calc(100vh-80px)] lg:max-h-screen">
+        {/* SISI KANAN: Konten yang akan berjalan saat layar di-scroll */}
+        <div 
+          className="relative z-10 w-full lg:w-1/2 bg-white flex flex-col pt-12 md:pt-20 lg:pt-24 pb-20 px-6 md:px-12 lg:px-20 
+                     mt-[50vh] md:mt-[60vh] lg:mt-0 lg:ml-[50%] 
+                     rounded-t-[2.5rem] lg:rounded-t-none 
+                     shadow-[0_-20px_30px_rgba(4,30,72,0.08)] lg:shadow-none"
+        >
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
             className="space-y-10"
           >
-            {/* Header */}
             <div>
               <span className="text-[#70161e] text-[11px] font-bold uppercase tracking-[0.4em] mb-4 block">
                 Let's Connect
@@ -545,19 +532,11 @@ export function ContactPage() {
               </p>
             </div>
 
-            {/* Why Choose Us */}
             <WhyChooseUsSection />
-
-            {/* Reservation Card */}
             <ReservationCard onOpen={open} />
-
-            {/* Social Links */}
             <SocialLinksSection />
-
-            {/* Maps Section */}
             <MapsSection />
 
-            {/* FAQ Section */}
             <div className="pt-8 border-t border-gray-200">
               <h3 className="text-3xl md:text-4xl font-serif text-[#041e48] mb-10">
                 Pertanyaan Umum
